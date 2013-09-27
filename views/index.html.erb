@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ruby WebSockets Chat Demo</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="assets/css/application.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Ruby WebSockets Chat Demo</h1>
+        <p>This is a Ruby WebSockets Chat Demo. The code lives <a href="https://github.com/heroku-examples/ruby-websockets-chat-demo">on GitHub</a>. You can find the full guide <a href="https://devcenter.heroku.com/articles/ruby-websockets">on Heroku DevCenter</a>.</p>
+      </div>
+      <form id="input-form" class="form-inline">
+        <div class="form-group">
+          <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
+        </div>
+        <div class="form-group">
+          <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
+        </div>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      <div class="page-header">
+        <h1>Chat</h1>
+      </div>
+      <div id="chat-text">
+      </div>
+    </div>
+
+    <script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="assets/js/application.js"></script>
+  </body>
+</html>
