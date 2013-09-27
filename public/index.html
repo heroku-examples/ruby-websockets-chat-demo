@@ -1,15 +1,51 @@
+<!DOCTYPE html>
 <html>
-  <head><title>Websockets Ruby Demo</title></head>
+  <head>
+    <title>Websockets Ruby Demo</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
   <body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Chat App</h1>
+      </div>
+      <form id="input-form" class="form-inline">
+        <div class="form-group">
+          <input id="input-handle" type="text" class="form-control" placeholder="Enter handle" autofocus />
+        </div>
+        <div class="form-group">
+          <input id="input-text" type="text" class="form-control" placeholder="Enter chat text here!" autofocus />
+        </div>
+        <button class="btn btn-primary" type="submit">Send</button>
+      </form>
+      <div id="chat-text">
+        <h3>Chat</h3>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="faye/client.js"></script>
     <script type="text/javascript">
-      var host         = window.document.location.host
-      var client       = new Faye.Client('http://' + host + '/faye');
-      var subscription = client.subscribe('/message', function(message) {
-        alert(message);
+      function setup_faye() {
+        var host         = window.document.location.host
+        var client       = new Faye.Client('http://' + host + '/faye');
+
+        return client;
+      }
+
+      var client       = setup_faye();
+      var subscription = client.subscribe('/message', function(data) {
+        $("#chat-text").append("<p>" + data.handle + ": " + data.text + "</p>");
       });
-      subscription.callback(function() {
-        alert('Subscription is now active: ' + host);
+
+      $("#input-form").on("submit", function(event) {
+        event.preventDefault();
+        var client = setup_faye();
+        var handle = $("#input-handle")[0].value;
+        var text   = $("#input-text")[0].value;
+        client.publish("/message", { handle: handle, text: text } );
+        $("#input-text")[0].value = "";
       });
     </script>
   </body>
