@@ -38,7 +38,7 @@
 
       var client       = setup_faye();
       var subscription = client.subscribe('/message', function(data) {
-        $("#chat-text").append("<p>" + data.handle + ": " + data.text + "</p>");
+        $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");
       });
 
       $("#input-form").on("submit", function(event) {
