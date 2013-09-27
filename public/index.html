@@ -1,0 +1,12 @@
+<html>
+  <head><title>Websockets Ruby Demo</title></head>
+  <body>
+    <script type="text/javascript" src="http://localhost:8000/faye/client.js"></script>
+    <script type="text/javascript">
+      var client       = new Faye.Client('http://localhost:8000/faye');
+      var subscription = client.subscribe('/message', function(message) {
+        alert(message);
+      });
+    </script>
+  </body>
+</html>
