@@ -1,8 +1,7 @@
-require 'faye'
-require './app'
+require './app/app'
+require './app/middleware/chat_backend'
 
-use Faye::RackAdapter,
-  :mount      => '/faye',
-  :timeout    => 25
+Faye::WebSocket.load_adapter('thin')
+use ChatBackend
 
 run App

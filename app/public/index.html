@@ -27,26 +27,19 @@
     </div>
 
     <script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript" src="faye/client.js"></script>
     <script type="text/javascript">
-      function setup_faye() {
-        var host         = window.document.location.host
-        var client       = new Faye.Client('http://' + host + '/faye');
-
-        return client;
-      }
-
-      var client       = setup_faye();
-      var subscription = client.subscribe('/message', function(data) {
+      var uri      = "ws://" + window.document.location.host + "/";
+      var ws       = new WebSocket(uri);
+      ws.onmessage = function(message) {
+        var data = JSON.parse(message.data);
         $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");
-      });
+      };
 
       $("#input-form").on("submit", function(event) {
         event.preventDefault();
-        var client = setup_faye();
         var handle = $("#input-handle")[0].value;
         var text   = $("#input-text")[0].value;
-        client.publish("/message", { handle: handle, text: text } );
+        ws.send(JSON.stringify({ handle: handle, text: text }));
         $("#input-text")[0].value = "";
       });
     </script>
