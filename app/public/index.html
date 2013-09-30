@@ -4,6 +4,12 @@
     <title>Ruby Websockets Demo</title>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      #chat-text {
+        overflow: auto;
+        height: 500px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -33,6 +39,9 @@
       ws.onmessage = function(message) {
         var data = JSON.parse(message.data);
         $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");
+        $("#chat-text").stop().animate({
+          scrollTop: $('#chat-text')[0].scrollHeight
+        }, 800);
       };
 
       $("#input-form").on("submit", function(event) {
