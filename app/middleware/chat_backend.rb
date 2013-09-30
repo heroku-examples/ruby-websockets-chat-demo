@@ -16,7 +16,7 @@ class ChatBackend
         p [:open, ws.object_id]
         @clients[ws] = EM::PeriodicTimer.new(KEEPALIVE_TIME) do
           p [:ping, ws.object_id]
-          ws.ping
+          ws.ping { p [:pong, ws.object_id] }
         end
       end
 
