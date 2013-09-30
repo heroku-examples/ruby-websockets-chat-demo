@@ -10,14 +10,11 @@ class ChatBackend
 
   def call(env)
     if Faye::WebSocket.websocket?(env)
-      ws = Faye::WebSocket.new(env)
+      ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
 
       ws.on :open do |event|
         p [:open, ws.object_id]
-        @clients[ws] = EM::PeriodicTimer.new(KEEPALIVE_TIME) do
-          p [:ping, ws.object_id]
-          ws.ping { p [:pong, ws.object_id] }
-        end
+        @clients[ws] = 1
       end
 
       ws.on :message do |event|
@@ -27,7 +24,6 @@ class ChatBackend
 
       ws.on :close do |event|
         p [:close, ws.object_id, event.code, event.reason]
-        @clients[ws].cancel
         @clients.delete(ws)
         ws = nil
       end
