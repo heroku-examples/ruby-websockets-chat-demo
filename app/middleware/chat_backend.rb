@@ -1,7 +1,7 @@
 require 'faye/websocket'
 
 class ChatBackend
-  KEEPALIVE_TIME = 30 # in seconds
+  KEEPALIVE_TIME = 15 # in seconds
 
   def initialize(app)
     @app     = app
