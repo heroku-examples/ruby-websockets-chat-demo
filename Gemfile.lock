@@ -2,14 +2,16 @@ GEM
   remote: https://rubygems.org/
   specs:
     daemons (1.1.9)
+    em-hiredis (0.2.1)
+      hiredis (~> 0.4.0)
     eventmachine (1.0.3)
     faye-websocket (0.7.0)
       eventmachine (>= 0.12.0)
       websocket-driver (>= 0.3.0)
+    hiredis (0.4.5)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
-    redis (3.0.4)
     sinatra (1.4.3)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -25,7 +27,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  em-hiredis
   faye-websocket
-  redis
   sinatra
   thin

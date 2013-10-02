@@ -1,5 +1,5 @@
 require 'faye/websocket'
-require 'redis'
+require 'em-hiredis'
 require 'thread'
 
 Thread.abort_on_exception = true
@@ -11,15 +11,9 @@ class ChatBackend
   def initialize(app)
     @app     = app
     @clients = {}
-    uri      = URI.parse(ENV["REDISCLOUD_URL"])
-    @redis   = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-    Thread.new do
-      redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-      redis_sub.subscribe(CHANNEL) do |on|
-        on.message do |channel, msg|
-          @clients.keys.each {|ws| ws.send(msg) }
-        end
-      end
+    @redis   = EM::Hiredis.connect(ENV["REDISCLOUD_URL"])
+    @redis.pubsub.subscribe(CHANNEL) do |msg|
+      @clients.keys.each {|ws| ws.send(msg) }
     end
   end
 
