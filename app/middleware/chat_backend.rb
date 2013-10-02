@@ -1,17 +1,31 @@
 require 'faye/websocket'
+require 'redis'
+require 'thread'
+
+Thread.abort_on_exception = true
 
 class ChatBackend
   KEEPALIVE_TIME = 15 # in seconds
+  CHANNEL        = "chat-demo"
 
   def initialize(app)
     @app     = app
     @clients = {}
+    uri      = URI.parse(ENV["REDISCLOUD_URL"])
+    @redis   = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+    Thread.new do
+      redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+      redis_sub.subscribe(CHANNEL) do |on|
+        on.message do |channel, msg|
+          @clients.keys.each {|ws| ws.send(msg) }
+        end
+      end
+    end
   end
 
   def call(env)
     if Faye::WebSocket.websocket?(env)
       ws = Faye::WebSocket.new(env, nil, {ping: KEEPALIVE_TIME })
-
       ws.on :open do |event|
         p [:open, ws.object_id]
         @clients[ws] = 1
@@ -19,7 +33,7 @@ class ChatBackend
 
       ws.on :message do |event|
         p [:message, event.data]
-        @clients.keys.each {|client| client.send(event.data) }
+        @redis.publish(CHANNEL, event.data)
       end
 
       ws.on :close do |event|
