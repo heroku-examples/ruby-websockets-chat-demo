@@ -34,7 +34,7 @@ module ChatDemo
 
         ws.on :message do |event|
           p [:message, event.data]
-          @redis.publish(CHANNEL, sanitize(event.data))
+          @redis.publish(CHANNEL, event.data)
         end
 
         ws.on :close do |event|
@@ -49,13 +49,6 @@ module ChatDemo
       else
         @app.call(env)
       end
-    end
-
-    private
-    def sanitize(message)
-      json = JSON.parse(message)
-      json.each {|key, value| json[key] = ERB::Util.html_escape(value) }
-      JSON.generate(json)
     end
   end
 end
