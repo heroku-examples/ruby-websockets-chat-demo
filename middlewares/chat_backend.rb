@@ -12,15 +12,27 @@ module ChatDemo
     def initialize(app)
       @app     = app
       @clients = []
-      uri = URI.parse(ENV["REDISCLOUD_URL"])
-      @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-      Thread.new do
-        redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-        redis_sub.subscribe(CHANNEL) do |on|
-          on.message do |channel, msg|
-            @clients.each {|ws| ws.send(msg) }
+      if ENV["REDISCLOUD_URL"]
+        uri = URI.parse(ENV["REDISCLOUD_URL"])
+        @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+        Thread.new do
+          redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+          redis_sub.subscribe(CHANNEL) do |on|
+            on.message do |channel, msg|
+              @clients.each {|ws| ws.send(msg) }
+            end
           end
         end
+      else
+        @redis = Class.new do # dummy redis for local
+          attr_accessor :clients
+          def publish(channel, msg)
+            if channel == CHANNEL
+              @clients.each {|ws| ws.send(msg) }
+            end
+          end
+        end.new
+        @redis.clients = @clients
       end
     end
 
