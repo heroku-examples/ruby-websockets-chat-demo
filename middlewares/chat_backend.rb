@@ -26,7 +26,7 @@ module ChatDemo
           while true
             msg = "{\"handle\":\"DateTime=#{Time.now}\",\"text\":\"Version=1\"}"
             @clients.each {|ws| ws.send(msg) }
-            sleep 5
+            sleep 10
           end
       end
     end
