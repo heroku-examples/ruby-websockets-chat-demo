@@ -24,7 +24,7 @@ module ChatDemo
       end
       Thread.new do
           while true
-            msg = "{\"handle\":\"DateTime=#{Time.now}\",\"text\":\"Version=2\"}"
+            msg = "{\"handle\":\"DateTime=#{Time.now}\",\"text\":\"Version=1\"}"
             @clients.each {|ws| ws.send(msg) }
             sleep 10
           end
