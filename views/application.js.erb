@@ -1,6 +1,6 @@
 var scheme   = "<%= @scheme %>";
 var uri      = scheme + window.document.location.host + "/";
-var ws       = new WebSocket(uri);
+var ws       = new ReconnectingWebSocket(uri);
 ws.onmessage = function(message) {
   var data = JSON.parse(message.data);
   $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");

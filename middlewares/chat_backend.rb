@@ -22,6 +22,13 @@ module ChatDemo
           end
         end
       end
+      Thread.new do
+          while true
+            msg = "{\"handle\":\"DateTime=#{Time.now}\",\"text\":\"Version=1\"}"
+            @clients.each {|ws| ws.send(msg) }
+            sleep 10
+          end
+      end
     end
 
     def call(env)

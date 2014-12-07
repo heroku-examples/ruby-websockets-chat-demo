@@ -1,0 +1,8 @@
+language: ruby
+rvm:
+- 2.1.3
+deploy:
+  provider: heroku
+  api_key:
+    secure: DoWNgxTGDXtt1oh06jtjRc12Uk9qjGQdKC90yZO+aPJCkO1d0C8MwRaocCo/FLonmyuxExOB0XKUZUZdWh3RrZBmehqeXI2uoZPuUBtM7AKn1xOnoV4Jg20k/Jw803nu/V97JhZ9xEkXMTiVwmZwn6FSUzLgzmt6y0daCG9+h2w=
+  app: glacial-hollows-7849
