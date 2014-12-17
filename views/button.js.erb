@@ -1,0 +1,22 @@
+var scheme   = "<%= @scheme %>";
+var uri      = scheme + window.document.location.host + "/";
+var ws       = new WebSocket(uri);
+
+ws.onmessage = function(message) {
+    var data = JSON.parse(message.data);
+    console.log(data);
+};
+//ws.onclose = function () {
+//    setTimeout(function () {
+//        // Connection has closed so try to reconnect every 10 seconds.
+//        ws = new WebSocket(uri);
+//    }, 10*1000);
+//}
+
+$(document).on("click", ".rikinderu", function(event) {
+    console.log(this);
+    event.preventDefault();
+    var target = $(this).data("target");
+    ws.send(JSON.stringify({command: "rikinderu", target: target}));
+    new Audio("/assets/sounds/rikinderu.mp3").play();
+});

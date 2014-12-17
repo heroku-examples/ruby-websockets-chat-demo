@@ -1,18 +1,49 @@
 var scheme   = "<%= @scheme %>";
 var uri      = scheme + window.document.location.host + "/";
 var ws       = new WebSocket(uri);
+
 ws.onmessage = function(message) {
-  var data = JSON.parse(message.data);
-  $("#chat-text").append("<div class='panel panel-default'><div class='panel-heading'>" + data.handle + "</div><div class='panel-body'>" + data.text + "</div></div>");
-  $("#chat-text").stop().animate({
-    scrollTop: $('#chat-text')[0].scrollHeight
-  }, 800);
+    var data = JSON.parse(message.data);
+    console.log(data);
+    switch(data.command) {
+    case "init":
+        $(":text").val(data.opt.threshold);
+        $.map(data.opt.counts, function(v, k) {
+            $("#" + k).find(".count").html(v);
+        });
+        break;
+    case "rikinderu":
+        $("#" + data.target).find("span").html(data.count);
+        new Audio("/assets/sounds/rikinderu.mp3").play();
+        break;
+    case "reset":
+        $(".count").html(0);
+        break;
+    case "out":
+        audio = new Audio("/assets/sounds/effect.mp3");
+        audio.addEventListener("ended", function() {
+            out_sound = new Audio("/assets/sounds/" + data.target + ".mp3");
+            out_sound.addEventListener("ended", function() {
+                $("#myModal").modal("hide");
+            });
+            out_sound.play();
+        });
+        $("#myModal").find(".modal-body").html(data.name + "アウト！");
+        $("#myModal").modal("show");
+        $("#" + data.target).find("span").html(0);
+        audio.play();
+        break;
+    }
 };
 
+
 $("#input-form").on("submit", function(event) {
-  event.preventDefault();
-  var handle = $("#input-handle")[0].value;
-  var text   = $("#input-text")[0].value;
-  ws.send(JSON.stringify({ handle: handle, text: text }));
-  $("#input-text")[0].value = "";
+    event.preventDefault();
+    var val = $(":text").val();
+    ws.send(JSON.stringify({command: "threshold", val: val}));
+});
+
+$("#reset").on("click", function(event) {
+    event.preventDefault();
+    ws.send(JSON.stringify({command: "reset"}));
 });
