@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# 2014-12-17:v2
+
+NETWORK:
+*
+
+CACHE:
+/assets/sounds/abe.mp3
+/assets/sounds/effect.mp3
+/assets/sounds/kakizaki.mp3
+/assets/sounds/koji.mp3
+/assets/sounds/rikinderu.mp3
+/assets/sounds/shuhei.mp3
