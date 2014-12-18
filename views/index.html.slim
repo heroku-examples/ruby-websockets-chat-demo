@@ -1,0 +1,27 @@
+doctype html
+html minifest="rikimanai.appcache"
+  head
+    title Ruby WebSockets Chat Demo
+    link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen"
+    link href="assets/css/application.css" rel="stylesheet" media="screen"
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+  body
+    .container
+      .jumbotron
+        h1 力んでるやつには容赦なくタップ
+      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="shuhei"  秀平
+      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="kakizaki" 柿崎
+      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="abe"     あべ
+      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="koji"    斉藤
+
+
+    /! Modal
+    #myModal.modal.fade tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+      .modal-dialog
+        .modal-content
+          .modal-body
+            | ...
+
+    script type="text/javascript" src="assets/js/jquery-2.0.3.min.js"
+    script type="text/javascript" src="assets/js/bootstrap.min.js"
+    script type="text/javascript" src="assets/js/button.js"
