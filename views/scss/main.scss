@@ -1,0 +1,31 @@
+.test {
+  .hoge {
+    background: #000;
+  }
+}
+/*スマートフォンのレイアウト*/
+.phone-top-image {
+  width: 278px;
+  height: 77px;
+  display: block;
+  margin: 24px auto 30px auto;
+}
+
+.phone-boader{
+  border:none; /*枠を消す*/
+  background:none; /*背景色を白に*/
+  outline:none;
+}
+
+.phone-btn{
+  width: 284px;
+  height: 85px;
+  border:none; /*枠を消す*/
+  background:none; /*背景色を白に*/
+  margin: 0 0 20px -3px;
+}
+
+.phone-container {
+  max-width: 850px;
+  text-align: center;
+}
