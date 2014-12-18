@@ -4,6 +4,7 @@ html manifest="rikimanai.appcache"
     title Ruby WebSockets Chat Demo
     link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen"
     link href="assets/css/application.css" rel="stylesheet" media="screen"
+    link href="assets/css/main.css" rel="stylesheet" media="screen"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
   body
     .container style="padding: 10px;"
@@ -16,26 +17,20 @@ html manifest="rikimanai.appcache"
             .col-sm-2
               input.form-control type="text" placeholder="閾値"
             button.btn.btn-primary type="submit" 更新
-      .row
-        .graph
-          img.rounded style="width: 100%; height: 400px;"
-      .row
+      .row.main-bg
+      .row.counts
         .col-md-3
-          p#shuhei style="text-align: center;"
-            | 秀平
-            span.count style="margin: 0 10px;"
+          p#shuhei
+            span.count
         .col-md-3
-          p#kakizaki style="text-align: center;"
-            | 柿崎
-            span.count style="margin: 0 10px;"
+          p#kakizaki
+            span.count
         .col-md-3
-          p#abe style="text-align: center;"
-            | あべ
-            span.count style="margin: 0 10px;"
+          p#abe
+            span.count
         .col-md-3
-          p#koji style="text-align: center;"
-            | 斉藤
-            span.count style="margin: 0 10px;"
+          p#koji
+            span.count
 
     /! Modal
     #myModal.modal.fade tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"

@@ -41,7 +41,7 @@ module ChatDemo
         ws.on :open do |event|
           p [:open, ws.object_id]
           @clients << ws
-          @threshold = @redis.get "threshold"
+          @threshold = @redis.get("threshold").to_i
           json = JSON.generate({
                                  command: "init",
                                  opt: {
@@ -63,23 +63,29 @@ module ChatDemo
           data  = JSON.parse(event.data)
           case data["command"]
           when "rikinderu"
-            count = @redis.incr("vote-#{data["target"]}")
+            target = data["target"]
+            count = @redis.incr("vote-#{target}")
             data["count"] = count
-            @redis.publish(CHANNEL, sanitize(data))
+
+            p "====================================> start"
+            @redis.publish(CHANNEL, data.to_json)
+            p "====================================> end"
             p "count=#{count}, threshold=#{@threshold}"
             if count >= @threshold
-              target = data["target"]
               data["command"] = "out"
               data["name"] = NAME[target]
-              @redis.publish(CHANNEL, sanitize(data))
-              @redis.set data["vote-#{target}"], 0
+              @redis.publish(CHANNEL, data.to_json)
+              @redis.publish(CHANNEL, { command: "lock" }.to_json)
+              @redis.set "vote-#{target}", 0
             end
           when "threshold"
             @threshold = data["val"].to_i
             @redis.set "threshold", @threshold
           when "reset"
             reset
-            @redis.publish(CHANNEL, sanitize(data))
+            @redis.publish(CHANNEL, data.to_json)
+          else
+            @redis.publish(CHANNEL, data.to_json)
           end
         end
 
@@ -100,9 +106,7 @@ module ChatDemo
     private
     def sanitize(json)
       #json.each {|key, value| json[key] = ERB::Util.html_escape(value) }
-      json = JSON.generate(json)
-      p json
-      json
+      json.to_json
     end
 
     def reset

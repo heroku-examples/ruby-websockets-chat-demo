@@ -29,3 +29,16 @@
   max-width: 850px;
   text-align: center;
 }
+
+.main-bg {
+  background: url("/assets/images/screen/main_screen.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  min-height: 600px;
+}
+.counts {
+  p {
+    text-align: center;
+  }
+}

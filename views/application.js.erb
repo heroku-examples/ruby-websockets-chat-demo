@@ -29,20 +29,6 @@ var onMessage = function(message) {
         break;
     case "out":
         out(data);
-        /*
-        audio = new Audio("/assets/sounds/effect.mp3");
-        audio.addEventListener("ended", function() {
-            out_sound = new Audio("/assets/sounds/" + data.target + ".mp3");
-            out_sound.addEventListener("ended", function() {
-                $("#myModal").modal("hide");
-            });
-            out_sound.play();
-        });
-        $("#myModal").find(".modal-body").html(data.name + "アウト！");
-        $("#myModal").modal("show");
-        $("#" + data.target).find("span").html(0);
-        audio.play();
-        */
         break;
     }
 };
@@ -57,6 +43,7 @@ function out(data) {
     audio.addEventListener("ended", function() {
         out_sound = new Audio("/assets/sounds/" + data.target + ".mp3");
         out_sound.addEventListener("ended", function() {
+            send({command: "unlock"});
             $("#myModal").modal("hide");
         });
         out_sound.play();

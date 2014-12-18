@@ -1,10 +1,19 @@
 var scheme   = "<%= @scheme %>";
 var uri      = scheme + window.document.location.host + "/";
 var ws       = new WebSocket(uri);
+var lock    = false;
 
 ws.onmessage = function(message) {
     var data = JSON.parse(message.data);
     console.log(data);
+    switch(data.command) {
+    case "lock":
+        lock = true;
+        break;
+    case "unlock":
+        lock = false;
+        break;
+    }
 };
 //ws.onclose = function () {
 //    setTimeout(function () {
@@ -14,9 +23,11 @@ ws.onmessage = function(message) {
 //}
 
 $(document).on("click", ".rikinderu", function(event) {
-    console.log(this);
-    event.preventDefault();
-    var target = $(this).data("target");
-    ws.send(JSON.stringify({command: "rikinderu", target: target}));
-    new Audio("/assets/sounds/rikinderu.mp3").play();
+    console.log("lock? %s", lock);
+    if (!lock) {
+        event.preventDefault();
+        var target = $(this).data("target");
+        ws.send(JSON.stringify({command: "rikinderu", target: target}));
+        new Audio("/assets/sounds/rikinderu.mp3").play();
+    }
 });
