@@ -1,8 +1,16 @@
 var scheme   = "<%= @scheme %>";
 var uri      = scheme + window.document.location.host + "/";
-var ws       = new WebSocket(uri);
+var ws       = null;
 
-ws.onmessage = function(message) {
+var open = function() {
+    if (ws == null) {
+        ws = new WebSocket(uri);
+        ws.onmessage = onMessage;
+        ws.onerror   = onError;
+    }
+}
+
+var onMessage = function(message) {
     var data = JSON.parse(message.data);
     console.log(data);
     switch(data.command) {
@@ -20,6 +28,8 @@ ws.onmessage = function(message) {
         $(".count").html(0);
         break;
     case "out":
+        out(data);
+        /*
         audio = new Audio("/assets/sounds/effect.mp3");
         audio.addEventListener("ended", function() {
             out_sound = new Audio("/assets/sounds/" + data.target + ".mp3");
@@ -32,18 +42,45 @@ ws.onmessage = function(message) {
         $("#myModal").modal("show");
         $("#" + data.target).find("span").html(0);
         audio.play();
+        */
         break;
     }
 };
 
+var onError = function(error) {
+    console.log(error);
+    ws.open();
+}
 
+function out(data) {
+    audio = new Audio("/assets/sounds/effect.mp3");
+    audio.addEventListener("ended", function() {
+        out_sound = new Audio("/assets/sounds/" + data.target + ".mp3");
+        out_sound.addEventListener("ended", function() {
+            $("#myModal").modal("hide");
+        });
+        out_sound.play();
+    });
+    $("#myModal").find(".modal-body").html(data.name + "アウト！");
+    $("#myModal").modal("show");
+    $("#" + data.target).find("span").html(0);
+    audio.play();
+}
 $("#input-form").on("submit", function(event) {
     event.preventDefault();
     var val = $(":text").val();
-    ws.send(JSON.stringify({command: "threshold", val: val}));
+    send({command: "threshold", val: val});
 });
 
 $("#reset").on("click", function(event) {
     event.preventDefault();
-    ws.send(JSON.stringify({command: "reset"}));
+    send({command: "reset"});
+});
+
+function send(data) {
+    ws.send(JSON.stringify(data));
+}
+
+$(function() {
+    open();
 });
