@@ -1,3 +1,6 @@
+require 'bundler'
+Bundler.require
+
 require './app'
 require './middlewares/chat_backend'
 
