@@ -1,5 +1,6 @@
 require 'sinatra/base'
 
+
 module ChatDemo
   class App < Sinatra::Base
     get "/" do
@@ -21,5 +22,10 @@ module ChatDemo
       @scheme = ENV['RACK_ENV'] == "production" ? "wss://" : "ws://"
       erb :"button.js"
     end
+
+    get "/assets/css/main.css" do
+      scss :"scss/main"
+    end
+
   end
 end
