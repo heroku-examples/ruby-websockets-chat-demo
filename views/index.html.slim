@@ -1,18 +1,29 @@
 doctype html
 html minifest="rikimanai.appcache"
+
+
   head
     title Ruby WebSockets Chat Demo
     link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen"
-    link href="assets/css/application.css" rel="stylesheet" media="screen"
-    meta name="viewport" content="width=device-width, initial-scale=1.0"
-  body
-    .container
-      .jumbotron
-        h1 力んでるやつには容赦なくタップ
-      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="shuhei"  秀平
-      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="kakizaki" 柿崎
-      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="abe"     あべ
-      button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="koji"    斉藤
+    /link href="assets/css/application.css" rel="stylesheet" media="screen"
+    link href="/assets/css/main.css" rel="stylesheet" media="screen"
+    meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+
+  body.center
+    .phone-container
+      img.phone-top-image src="assets/images/phone/top.png"
+      button.rikinderu.phone-boader data-target="shuhei"
+        img.phone-btn src="assets/images/phone/shuhei_btn.png"
+      button.rikinderu.phone-boader data-target="kakizaki"
+        img.phone-btn src="assets/images/phone/kakizaki_btn.png"
+      button.rikinderu.phone-boader data-target="abe"
+        img.phone-btn src="assets/images/phone/abe_btn.png"
+      button.rikinderu.phone-boader data-target="koji"
+        img.phone-btn src="assets/images/phone/saito_btn.png"
+
+      / button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="kakizaki" 柿崎
+      / button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="abe"     あべ
+      / button.rikinderu.btn.btn-primary.btn-lg.btn-block data-target="koji"    斉藤
 
 
     /! Modal
