@@ -12,15 +12,27 @@ module ChatDemo
     def initialize(app)
       @app     = app
       @clients = []
-      uri = URI.parse(ENV["REDISCLOUD_URL"])
-      @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-      Thread.new do
-        redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
-        redis_sub.subscribe(CHANNEL) do |on|
-          on.message do |channel, msg|
-            @clients.each {|ws| ws.send(msg) }
+      if ENV["REDISCLOUD_URL"]
+        uri = URI.parse(ENV["REDISCLOUD_URL"])
+        @redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+        Thread.new do
+          redis_sub = Redis.new(host: uri.host, port: uri.port, password: uri.password)
+          redis_sub.subscribe(CHANNEL) do |on|
+            on.message do |channel, msg|
+              @clients.each {|ws| ws.send(msg) }
+            end
           end
         end
+      else
+        @redis = Class.new do # dummy redis for local
+          attr_accessor :clients
+          def publish(channel, msg)
+            if channel == CHANNEL
+              @clients.each {|ws| ws.send(msg) }
+            end
+          end
+        end.new
+        @redis.clients = @clients
       end
     end
 
@@ -34,7 +46,7 @@ module ChatDemo
 
         ws.on :message do |event|
           p [:message, event.data]
-          @redis.publish(CHANNEL, sanitize(event.data))
+          @redis.publish(CHANNEL, event.data)
         end
 
         ws.on :close do |event|
@@ -49,13 +61,6 @@ module ChatDemo
       else
         @app.call(env)
       end
-    end
-
-    private
-    def sanitize(message)
-      json = JSON.parse(message)
-      json.each {|key, value| json[key] = ERB::Util.html_escape(value) }
-      JSON.generate(json)
     end
   end
 end
