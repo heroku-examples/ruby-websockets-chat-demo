@@ -2,7 +2,9 @@
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-This is a simple application that serves tasty WebSockets to your users with [faye-websocket](https://github.com/faye/faye-websocket-ruby), [Puma](https://github.com/puma/puma), and [Sinatra](https://github.com/sinatra/sinatra).
+This is a simple application that serves tasty WebSockets to your users with [Plezi](https://github.com/boazsegev/plezi), [GRHttp](https://github.com/boazsegev/GRHttp), and [Sinatra](https://github.com/sinatra/sinatra).
+
+Although Plezi could run the HTTP backend as well, we are using Sinatra to show how well everyone plays together and how to implement Websockets in your existing app.
 
 Check out the [live demo](http://ruby-websockets-chat.herokuapp.com/) or [read the docs](https://devcenter.heroku.com/articles/ruby-websockets).
 
