@@ -27,7 +27,7 @@ class WSBroadcaster
 
   protected
 
-  # sends data to the websocket - must be protected using the _ prefix,
+  # sends data to the websocket - must be protected,
   # or it will be considered an available HTTP route.
   def write data
     response << data
