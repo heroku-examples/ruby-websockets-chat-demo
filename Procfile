@@ -1,1 +1,1 @@
-web: bundle exec rackup -p $PORT -s grhttp
+web: bundle exec rackup -p $PORT
