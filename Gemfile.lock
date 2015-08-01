@@ -1,28 +1,28 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    eventmachine (1.0.3)
-    faye-websocket (0.7.4)
-      eventmachine (>= 0.12.0)
-      websocket-driver (>= 0.3.1)
-    puma (2.6.0)
-      rack (>= 1.1, < 2.0)
-    rack (1.5.2)
-    rack-protection (1.5.0)
+    greactor (0.0.12)
+    grhttp (0.0.21)
+      greactor (~> 0.0.12)
+    plezi (0.10.16)
+      grhttp (~> 0.0.21)
+    rack (1.6.4)
+    rack-protection (1.5.3)
       rack
-    redis (3.0.4)
-    sinatra (1.4.3)
+    redis (3.2.1)
+    sinatra (1.4.6)
       rack (~> 1.4)
       rack-protection (~> 1.4)
-      tilt (~> 1.3, >= 1.3.4)
-    tilt (1.4.1)
-    websocket-driver (0.3.4)
+      tilt (>= 1.3, < 3)
+    tilt (2.0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  faye-websocket
-  puma
+  plezi
   redis
   sinatra
+
+BUNDLED WITH
+   1.10.4
